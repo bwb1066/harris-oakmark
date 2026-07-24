@@ -9,6 +9,9 @@ runtime). DA library material for those blocks lives in `reference/da-library/`.
 
 ## Repo family & update flow
 
+> Full runbook: **[`docs/WORKFLOW.md`](docs/WORKFLOW.md)** — the reasoning, one-time
+> setup, spawn steps, sync commands, and the manual DA step in one place.
+
 ```
 aemsites/author-kit   (upstream: AK improvements)
         │  git fetch upstream && git merge upstream/main
