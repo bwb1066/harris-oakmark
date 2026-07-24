@@ -16,6 +16,7 @@ const linkBlocks = [
   { fragment: '/fragments/' },
   { schedule: '/schedules/' },
   { youtube: 'https://www.youtube' },
+  { 'aem-modal': '/modals/' },
 ];
 
 // Blocks with self-managed styles

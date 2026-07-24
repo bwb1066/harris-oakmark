@@ -1,0 +1,33 @@
+.aem-columns > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.aem-columns img {
+  width: 100%;
+}
+
+.aem-columns > div > div {
+  order: 1;
+}
+
+.aem-columns > div > .aem-columns-img-col {
+  order: 0;
+}
+
+.aem-columns > div > .aem-columns-img-col img {
+  display: block;
+}
+
+@media (width >= 900px) {
+  .aem-columns > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: 24px;
+  }
+
+  .aem-columns > div > div {
+    flex: 1;
+    order: unset;
+  }
+}

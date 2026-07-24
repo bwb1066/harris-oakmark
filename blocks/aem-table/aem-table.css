@@ -1,0 +1,67 @@
+.aem-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.aem-table table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: var(--body-font-size-xs);
+}
+
+@media (width >= 600px) {
+  .aem-table table {
+    font-size: var(--body-font-size-s);
+  }
+}
+
+@media (width >= 900px) {
+  .aem-table table {
+    font-size: var(--body-font-size-m);
+  }
+}
+
+.aem-table table thead tr {
+  border-top: 2px solid #dadada;
+  border-bottom: 2px solid #dadada;
+}
+
+.aem-table table tbody tr {
+  border-bottom: 1px solid #dadada;
+}
+
+.aem-table table th {
+  font-weight: 700;
+}
+
+.aem-table table th,
+.aem-table table td {
+  padding: 0.5em;
+  text-align: left;
+}
+
+.aem-table table th p,
+.aem-table table td p {
+  margin: 0;
+}
+
+.aem-table table td p + p {
+  margin-top: 0.25em;
+}
+
+/* no header variant */
+.aem-table.no-header table tbody tr {
+  border-top: 1px solid #dadada;
+}
+
+/* striped variant */
+.aem-table.striped tbody tr:nth-child(odd) {
+  background-color: var(--light-color);
+}
+
+/* bordered variant */
+.aem-table.bordered table th,
+.aem-table.bordered table td {
+  border: 1px solid #dadada;
+}

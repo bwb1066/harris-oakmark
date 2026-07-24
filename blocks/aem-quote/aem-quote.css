@@ -1,0 +1,41 @@
+.aem-quote blockquote {
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: 900px;
+}
+
+@media (width >= 900px) {
+  .aem-quote blockquote {
+    padding: 0 32px;
+  }
+}
+
+.aem-quote blockquote .aem-quote-quotation {
+  font-size: 120%;
+}
+
+.aem-quote blockquote .aem-quote-quotation > :first-child {
+  text-indent: -0.5ch;
+}
+
+.aem-quote blockquote .aem-quote-quotation > :first-child::before,
+.aem-quote blockquote .aem-quote-quotation > :last-child::after {
+  line-height: 0;
+}
+
+.aem-quote blockquote .aem-quote-quotation > :first-child::before {
+  content: "“";
+}
+
+.aem-quote blockquote .aem-quote-quotation > :last-child::after {
+  content: "”";
+}
+
+.aem-quote blockquote .aem-quote-attribution {
+  text-align: right;
+}
+
+.aem-quote blockquote .aem-quote-attribution > :first-child::before {
+  content: "—";
+  padding-right: 0.5ch;
+}

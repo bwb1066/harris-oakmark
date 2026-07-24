@@ -1,0 +1,61 @@
+.aem-accordion details {
+  border: 1px solid #dadada;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.aem-accordion details + details {
+  margin-top: 24px;
+}
+
+.aem-accordion details p {
+  margin-bottom: 0.8em;
+}
+
+.aem-accordion details summary {
+  position: relative;
+  padding: 0 16px;
+  padding-right: 46px;
+  cursor: pointer;
+  list-style: none;
+  overflow: auto;
+  transition: background-color 0.2s;
+}
+
+.aem-accordion details[open] summary {
+  background-color: var(--light-color);
+}
+
+.aem-accordion details summary:focus,
+.aem-accordion details summary:hover {
+  background-color: var(--light-color);
+}
+
+.aem-accordion details summary::-webkit-details-marker {
+  display: none;
+}
+
+.aem-accordion details summary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%) rotate(135deg);
+  width: 6px;
+  height: 6px;
+  border: 2px solid;
+  border-width: 2px 2px 0 0;
+  transition: transform 0.2s;
+}
+
+.aem-accordion details[open] summary::after {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.aem-accordion details .aem-accordion-item-body {
+  padding: 0 16px;
+}
+
+.aem-accordion details[open] .aem-accordion-item-body {
+  border-top: 1px solid #dadada;
+  background-color: var(--background-color);
+}

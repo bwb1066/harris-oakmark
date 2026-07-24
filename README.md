@@ -1,3 +1,44 @@
+# bwb1066-ak-base
+
+Controlled baseline for spinning up AEM Edge Delivery replica sites. It is a
+**mirror of [`aemsites/author-kit`](https://github.com/aemsites/author-kit)**
+(not a GitHub fork, so it can be private + template) with all of
+[`adobe/aem-block-collection`](https://github.com/adobe/aem-block-collection)'s
+blocks ported in under an `aem-` prefix (adapted for Author Kit's `scripts/ak.js`
+runtime). DA library material for those blocks lives in `reference/da-library/`.
+
+## Repo family & update flow
+
+```
+aemsites/author-kit   (upstream: AK improvements)
+        │  git fetch upstream && git merge upstream/main
+        ▼
+bwb1066-ak-base       (this repo: AK + baked-in aem-* blocks)
+        │  ./spawn-site.sh <name>   (clone → shared history)
+        ▼
+<owner>/<site>        (a replica site)
+        ▲  git fetch base && git merge base/main   (pull baseline updates)
+```
+
+- **Pull AK upstream into this baseline:** `git fetch upstream && git merge upstream/main`
+  (remote `upstream` = author-kit; occasional conflicts in core `scripts/`/`styles/`,
+  rarely in the added `aem-*` blocks).
+- **Spawn a site:** `./spawn-site.sh <site-name> [owner] [--public]`. This *clones*
+  the baseline rather than using GitHub's "Use this template" button, so the site
+  shares history and can later `git merge base/main` cleanly. (The template button
+  starts a disconnected history, which turns downstream updates into
+  `--allow-unrelated-histories` cherry-picks — avoid it for real sites.)
+- **Push baseline updates down into a site:** from the site, `git fetch base && git merge base/main`.
+
+## DA blocks
+
+`reference/da-library/` holds a sample doc per `aem-*` block plus `blocks-sheet.csv`.
+These must be installed in DA by hand (no API): create the sample docs under
+`bwb1066-ak-base/docs/library/blocks` in DA and append the CSV rows to the sheet
+your site config's `library` tab points at. See `reference/da-library/README.md`.
+
+---
+
 # Author Kit
 For projects that want a few more batteries. Built by the team who brought you da.live and adobe.com.
 

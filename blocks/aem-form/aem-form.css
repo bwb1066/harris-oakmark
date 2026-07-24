@@ -1,0 +1,237 @@
+.aem-form [aria-hidden='true'] {
+  display: none;
+}
+
+.aem-form input,
+.aem-form textarea,
+.aem-form select,
+.aem-form button {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  font: inherit;
+}
+
+.aem-form input,
+.aem-form textarea,
+.aem-form select {
+  scroll-margin: 1em;
+  width: 100%;
+  border: 1px solid var(--dark-color);
+  border-radius: 4px;
+  padding: 0.5em 0.75em;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: var(--body-font-size-s);
+}
+
+.aem-form textarea {
+  resize: vertical;
+}
+
+.aem-form fieldset {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.aem-form input:hover,
+.aem-form textarea:hover,
+.aem-form select:hover,
+.aem-form button:hover {
+  border-color: var(--link-color);
+}
+
+.aem-form input:focus,
+.aem-form textarea:focus,
+.aem-form select:focus,
+.aem-form button:focus {
+  outline-offset: 4px;
+}
+
+.aem-form input:disabled,
+.aem-form input:hover:disabled,
+.aem-form input:focus:disabled,
+.aem-form textarea:disabled,
+.aem-form textarea:hover:disabled,
+.aem-form textarea:focus:disabled,
+.aem-form select:disabled,
+.aem-form select:hover:disabled,
+.aem-form select:focus:disabled,
+.aem-form input[readonly],
+.aem-form textarea[readonly],
+.aem-form select[readonly] {
+  border-color: #d1d1d1;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+.aem-form input[readonly]:focus,
+.aem-form textarea[readonly]:focus,
+.aem-form select[readonly]:focus {
+  outline: 0;
+}
+
+.aem-form input[type='checkbox'],
+.aem-form input[type='radio'] {
+  width: unset;
+}
+
+.aem-form label,
+.aem-form legend {
+  display: block;
+}
+
+.aem-form label[data-required]::after,
+.aem-form legend[data-required]::after {
+  content: '*';
+  margin-left: 0.25ch;
+  color: firebrick;
+}
+
+.aem-form .aem-form-field > label:first-child,
+.aem-form .aem-form-field > legend {
+  font-weight: bold;
+}
+
+.aem-form .aem-form-field + .aem-form-field {
+  margin-top: 1em;
+}
+
+.aem-form .aem-form-field.checkbox-field label,
+.aem-form .aem-form-field.radio-field label {
+  position: relative;
+  padding-left: calc(1em + 1ch);
+  font-size: var(--body-font-size-s);
+  line-height: 44px;
+  cursor: pointer;
+}
+
+.aem-form .aem-form-field.checkbox-field label input,
+.aem-form .aem-form-field.radio-field label input,
+.aem-form .aem-form-field.toggle-field label input {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  margin: 0;
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+}
+
+.aem-form .aem-form-field.checkbox-field label input:disabled,
+.aem-form .aem-form-field.radio-field label input:disabled {
+  cursor: default;
+}
+
+@media (width >= 600px) {
+  .aem-form .aem-form-field.checkbox-field,
+  .aem-form .aem-form-field.radio-field {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25ch 1em;
+  }
+}
+
+/* custom toggle field */
+.aem-form .aem-form-field.toggle-field label {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1ch;
+  min-height: 44px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.aem-form .aem-form-field.toggle-field label input {
+  width: 2em;
+  opacity: 0;
+  border-radius: 50%;
+}
+
+.aem-form .aem-form-field.toggle-field label span {
+  position: relative;
+  width: calc(2em + (2 * 1px));
+  height: calc(1em + (2 * 1px));
+  border-radius: 1em;
+  border: 1px solid var(--dark-color);
+  background-color: var(--dark-color);
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.aem-form .aem-form-field.toggle-field label span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: var(--background-color);
+  transition: left 0.2s;
+}
+
+.aem-form .aem-form-field.toggle-field label input:checked + span {
+  background-color: var(--link-color);
+}
+
+.aem-form .aem-form-field.toggle-field label input:checked + span::after {
+  left: calc(100% - 1em);
+}
+
+.aem-form .aem-form-field.toggle-field label input:disabled + span {
+  border-color: #d1d1d1;
+  background-color: #d1d1d1;
+  cursor: default;
+}
+
+.aem-form .aem-form-field.toggle-field label input:disabled + span::after {
+  background-color: var(--light-color);
+}
+
+.aem-form .field-help-text {
+  margin-top: 0.2em;
+  color: var(--dark-color);
+  font-size: var(--body-font-size-xs);
+}
+
+.aem-form .button-wrapper {
+  margin-top: 1em;
+}
+
+.aem-form .button-wrapper button {
+  width: 100%;
+}
+
+.aem-form .button-wrapper button.button:disabled,
+.aem-form .button-wrapper button.button:hover:disabled {
+  border-color: var(--dark-color);
+  background-color: var(--dark-color);
+  color: var(--background-color);
+  cursor: progress;
+}
+
+.aem-form .button-wrapper button.button.secondary:disabled,
+.aem-form .button-wrapper button.button.secondary:hover:disabled {
+  border-color: var(--dark-color);
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+@media (width >= 600px) {
+  .aem-form .button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1ch;
+  }
+
+  .aem-form .button-wrapper button {
+    width: max-content;
+  }
+}
