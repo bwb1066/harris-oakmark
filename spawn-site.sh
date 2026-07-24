@@ -26,12 +26,21 @@ BASE_OWNER="bwb1066"
 BASE_REPO="bwb1066-ak-base"
 BASE_URL="https://github.com/${BASE_OWNER}/${BASE_REPO}.git"
 
-SITE="${1:-}"
-OWNER="${2:-bwb1066}"
+# Separate flags from positionals so `--public` can appear anywhere and is never
+# mistaken for the owner.
 VIS="--private"
-for arg in "$@"; do [ "$arg" = "--public" ] && VIS="--public"; done
+POS=()
+for arg in "$@"; do
+  case "$arg" in
+    --public)  VIS="--public" ;;
+    --private) VIS="--private" ;;
+    *)         POS+=("$arg") ;;
+  esac
+done
+SITE="${POS[0]:-}"
+OWNER="${POS[1]:-bwb1066}"
 
-if [ -z "$SITE" ] || [ "$SITE" = "--public" ]; then
+if [ -z "$SITE" ]; then
   echo "usage: ./spawn-site.sh <site-name> [owner] [--public]" >&2
   exit 2
 fi
