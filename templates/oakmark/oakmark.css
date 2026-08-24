@@ -1,0 +1,31 @@
+/*
+ * Oakmark page theme — set on a page with `template: oakmark` metadata.
+ * ak.js loads this file and only then adds `.oakmark-template` to <body>, so
+ * this file must exist for the class (and every rule keyed off it in
+ * header.css / footer.css) to apply at all.
+ */
+
+body.oakmark-template {
+  --color-brand: var(--ho-green);
+  --color-link: var(--ho-green);
+  --color-accent: var(--ho-blue);
+
+  main {
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--ho-blue);
+    }
+
+    a:not(.btn) {
+      color: var(--ho-green);
+    }
+
+    .btn {
+      background-color: var(--ho-green);
+      color: var(--color-light);
+      border-radius: 0;
+    }
+  }
+}

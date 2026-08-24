@@ -1,0 +1,31 @@
+/*
+ * Harris Associates page theme — set on a page with `template: harris`
+ * metadata. ak.js loads this file and only then adds `.harris-template` to
+ * <body>, so this file must exist for the class (and every rule keyed off it
+ * in header.css / footer.css) to apply at all.
+ */
+
+body.harris-template {
+  --color-brand: var(--ho-blue);
+  --color-link: var(--ho-blue);
+  --color-accent: var(--ho-green);
+
+  main {
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--ho-blue);
+    }
+
+    a:not(.btn) {
+      color: var(--ho-green);
+    }
+
+    .btn {
+      background-color: var(--ho-green);
+      color: var(--color-light);
+      border-radius: 0;
+    }
+  }
+}

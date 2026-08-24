@@ -55,3 +55,112 @@ footer {
     }
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Harris | Oakmark theme
+   Both brands run the same deep-blue footer; only the link set and the legal
+   copy differ, and those come from the fragment (footer-h / footer-o).
+   --------------------------------------------------------------------------- */
+
+body.harris-template,
+body.oakmark-template {
+  footer {
+    background-color: var(--ho-blue);
+    color: var(--color-light);
+    font-family: var(--font-family);
+
+    a {
+      color: var(--color-light);
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-content {
+      padding-block: var(--spacing-xxl);
+      margin-block: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* Brand row: logo left, newsletter + socials right. */
+    .section:first-child .default-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--spacing-l);
+      padding-bottom: var(--spacing-xl);
+      border-bottom: 1px solid rgb(255 255 255 / 25%);
+    }
+
+    .section:first-child img {
+      height: 40px;
+      margin-right: auto;
+    }
+
+    .section:first-child ul {
+      display: flex;
+      gap: var(--spacing-l);
+    }
+
+    /* Sign Up reads as the one CTA in the footer. Excluding paragraphs that
+       hold an image is what keeps the logo link out of it — the Harris footer
+       has no newsletter, so there the logo IS the last paragraph. */
+    .section:first-child .default-content > p:has(a):not(:has(img)) a {
+      display: inline-block;
+      background-color: var(--ho-green);
+      padding: 10px var(--spacing-l);
+      font-weight: 700;
+    }
+
+    /* The long policy/document list wraps into columns. */
+    .section:nth-child(2) ul {
+      columns: 2;
+      column-gap: var(--spacing-xxl);
+      padding-block: var(--spacing-xl);
+    }
+
+    .section:nth-child(2) li {
+      break-inside: avoid;
+      margin-bottom: var(--spacing-m);
+    }
+
+    .section-legal {
+      font-size: var(--body-font-size-xs);
+      line-height: 1.6;
+      color: rgb(255 255 255 / 80%);
+      border-top: 1px solid rgb(255 255 255 / 25%);
+      padding-top: var(--spacing-xl);
+    }
+
+    .section-copyright {
+      font-size: var(--body-font-size-xs);
+      color: rgb(255 255 255 / 80%);
+      padding-top: var(--spacing-l);
+    }
+  }
+}
+
+@media (width >= 900px) {
+  body.harris-template,
+  body.oakmark-template {
+    footer {
+      .section:nth-child(2) ul {
+        columns: 4;
+      }
+
+      /* Base lays the legal + copyright sections out as right-aligned link
+         rows; here they are running paragraphs, so put them back in flow. */
+      .section-legal,
+      .section-copyright {
+        display: block;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

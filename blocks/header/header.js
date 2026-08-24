@@ -15,7 +15,10 @@ function closeAllMenus() {
   const openMenus = document.body.querySelectorAll('header .is-open');
   for (const openMenu of openMenus) {
     openMenu.classList.remove('is-open');
+    const trigger = openMenu.querySelector('.sibling-trigger');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
   }
+  document.body.classList.remove('sibling-menu-open');
 }
 
 function docClose(e) {
@@ -110,9 +113,19 @@ async function decorateAction(header, pattern) {
   if (pattern === '/tools/widgets/toggle') decorateNavToggle(btn);
 }
 
-function decorateMenu() {
-  // TODO: finish single menu support
-  return null;
+/**
+ * A plain dropdown: the nav item's nested <ul> authored in the fragment.
+ * Wrapping it in .menu is what hands it to the base show/hide rules — left
+ * unwrapped it renders inline and the whole nav tree sits open on the page.
+ */
+function decorateMenu(li) {
+  const list = li.querySelector(':scope > ul');
+  if (!list) return null;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'menu';
+  wrapper.append(list);
+  li.append(wrapper);
+  return wrapper;
 }
 
 function decorateMegaMenu(li) {
@@ -137,10 +150,36 @@ function decorateNavItem(li) {
   });
 }
 
+/**
+ * Mobile hamburger. The base header already ships the full-screen
+ * `.is-mobile-open` drawer but nothing that opens it, so below 900px the nav
+ * is unreachable without this. Synthesized rather than authored so it can't be
+ * dropped from the nav fragment.
+ */
+function decorateMenuToggle(section) {
+  const content = section.querySelector('.default-content') || section;
+  const btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Menu');
+  btn.setAttribute('aria-expanded', 'false');
+  for (let i = 0; i < 3; i += 1) btn.append(document.createElement('span'));
+  btn.addEventListener('click', () => {
+    const header = btn.closest('header');
+    const isOpen = header.classList.toggle('is-mobile-open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+    document.body.classList.toggle('nav-drawer-open', isOpen);
+  });
+  content.append(btn);
+}
+
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
   const brandLink = section.querySelector('a');
   const [, text] = brandLink.childNodes;
+  // Both brands use an image-only logo link, which has no text node to promote;
+  // without this the base appends a literal "undefined" as the accessible name.
+  if (!text) return;
   const span = document.createElement('span');
   span.className = 'brand-text';
   span.append(text);
@@ -164,19 +203,81 @@ function decorateNavSection(section) {
   }
 }
 
+/**
+ * The sibling-site panel — Harris Associates on the Oakmark site and vice
+ * versa. Unlike a main-nav mega menu it drops from the very top of the
+ * viewport over the whole header, so it gets its own class to key that off.
+ *
+ * The panel fragment must have more than one section: fragment.js inlines a
+ * single-section fragment's children directly and drops the .fragment-content
+ * wrapper this looks for.
+ */
+function decorateSiblingMenu(li) {
+  const menu = li.querySelector('.fragment-content');
+  if (!menu) return null;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'mega-menu sibling-menu';
+  wrapper.append(menu);
+
+  // Close is chrome, not content — synthesized here so it can't be dropped
+  // from the fragment and strand the panel open.
+  const close = document.createElement('button');
+  close.className = 'sibling-close';
+  close.type = 'button';
+  close.textContent = 'Close';
+  close.addEventListener('click', closeAllMenus);
+  const panel = menu.querySelector(':scope > .section:nth-child(2)') || wrapper;
+  panel.prepend(close);
+
+  li.append(wrapper);
+  return wrapper;
+}
+
+function decorateUtilityItem(li) {
+  li.classList.add('utility-nav-item');
+  const link = li.querySelector(':scope > p > a') || li.querySelector(':scope > a');
+  const menu = decorateSiblingMenu(li);
+  if (!(menu && link)) return;
+
+  li.classList.add('has-sibling-menu');
+  link.classList.add('sibling-trigger');
+  link.setAttribute('aria-expanded', 'false');
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleMenu(li);
+    const isOpen = li.classList.contains('is-open');
+    link.setAttribute('aria-expanded', String(isOpen));
+    document.body.classList.toggle('sibling-menu-open', isOpen);
+  });
+}
+
 async function decorateActionSection(section) {
   section.classList.add('actions-section');
+  const list = section.querySelector('ul');
+  if (!list) return;
+  list.classList.add('utility-nav-list');
+  for (const li of list.querySelectorAll(':scope > li')) {
+    decorateUtilityItem(li);
+  }
 }
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
-  if (sections[0]) decorateBrandSection(sections[0]);
+  if (sections[0]) {
+    decorateBrandSection(sections[0]);
+    decorateMenuToggle(sections[0]);
+  }
   if (sections[1]) decorateNavSection(sections[1]);
   if (sections[2]) decorateActionSection(sections[2]);
 
   for (const pattern of HEADER_ACTIONS) {
     decorateAction(fragment, pattern);
   }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAllMenus();
+  });
 }
 
 /**
@@ -184,7 +285,11 @@ async function decorateHeader(fragment) {
  * @param {Element} el The header element
  */
 export default async function init(el) {
-  const headerMeta = getMetadata('header');
+  // NOT `header` metadata: ak.js already spends that key on the header block's
+  // class name, so pointing it at a fragment path renames the block and the
+  // page loads /blocks//fragments/nav/header-h/... instead. `header-source` is
+  // what picks the per-brand nav on this site (index-h vs index-o).
+  const headerMeta = getMetadata('header-source');
   const path = headerMeta || HEADER_PATH;
   try {
     const fragment = await loadFragment(`${locale.prefix}${path}`);

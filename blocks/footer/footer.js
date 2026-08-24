@@ -9,7 +9,9 @@ const FOOTER_PATH = '/fragments/nav/footer';
  */
 export default async function init(el) {
   const { locale } = getConfig();
-  const footerMeta = getMetadata('footer');
+  // NOT `footer` metadata: utils/footer.js already spends that key on the
+  // footer block's class name. See the same note in blocks/header/header.js.
+  const footerMeta = getMetadata('footer-source');
   const path = footerMeta || FOOTER_PATH;
   try {
     const fragment = await loadFragment(`${locale.prefix}${path}`);
