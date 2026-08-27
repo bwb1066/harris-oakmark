@@ -1,5 +1,6 @@
 import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
+import decorateConciergeTrigger from './concierge.js';
 import { setColorScheme } from '../section-metadata/section-metadata.js';
 
 const { locale } = getConfig();
@@ -176,6 +177,10 @@ function decorateMenuToggle(section) {
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
   const brandLink = section.querySelector('a');
+  // A brand section with no link is authorable (and is what the Author Kit
+  // starter header degrades to once its action links are pulled out). The base
+  // dereferenced this unguarded, so one odd fragment took out the whole header.
+  if (!brandLink) return;
   const [, text] = brandLink.childNodes;
   // Both brands use an image-only logo link, which has no text node to promote;
   // without this the base appends a literal "undefined" as the accessible name.
@@ -201,6 +206,13 @@ function decorateNavSection(section) {
   for (const navItem of mainNavItems) {
     decorateNavItem(navItem);
   }
+
+  // Appended AFTER the loop above so it never picks up the dropdown wiring —
+  // it opens the concierge, not a menu. Brand comes from `template` metadata,
+  // not the body class: loadTemplate() adds that class only once the template
+  // stylesheet resolves, which can land after this runs.
+  const brand = getMetadata('template') === 'oakmark' ? 'Oakmark' : 'Harris Associates';
+  decorateConciergeTrigger(navList, `Ask the ${brand} AI concierge`);
 }
 
 /**
@@ -291,12 +303,13 @@ export default async function init(el) {
   // what picks the per-brand nav on this site (index-h vs index-o).
   const headerMeta = getMetadata('header-source');
   const path = headerMeta || HEADER_PATH;
-  try {
-    const fragment = await loadFragment(`${locale.prefix}${path}`);
-    fragment.classList.add('header-content');
-    await decorateHeader(fragment);
-    el.append(fragment);
-  } catch (e) {
-    throw Error(e);
-  }
+  // No try/catch: the base wrapped this in `throw Error(e)`, which stringifies
+  // the original and discards its stack, so every header failure reported this
+  // line instead of the code that actually broke. Letting it propagate
+  // untouched keeps the real stack — that is how the null brand-link crash
+  // below was finally located.
+  const fragment = await loadFragment(`${locale.prefix}${path}`);
+  fragment.classList.add('header-content');
+  await decorateHeader(fragment);
+  el.append(fragment);
 }

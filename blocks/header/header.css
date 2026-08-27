@@ -935,3 +935,65 @@ body.oakmark-template header.is-mobile-open {
     }
   }
 }
+
+/* --- Concierge sparkle trigger (blocks/header/concierge.js) ---------------- */
+
+body.harris-template header .concierge-item,
+body.oakmark-template header .concierge-item {
+  display: flex;
+  align-items: center;
+}
+
+body.harris-template header .concierge-trigger,
+body.oakmark-template header .concierge-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+
+  /* Buttons do not inherit colour; without this the sparkle renders UA-black
+     on the Harris blue. */
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  svg {
+    display: block;
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.08);
+  }
+}
+
+body.harris-template header .concierge-trigger:hover,
+body.harris-template header .concierge-trigger:focus-visible {
+  background-color: rgb(255 255 255 / 15%);
+}
+
+body.oakmark-template header .concierge-trigger {
+  color: var(--ho-green);
+}
+
+body.oakmark-template header .concierge-trigger:hover,
+body.oakmark-template header .concierge-trigger:focus-visible {
+  background-color: rgb(2 94 2 / 10%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.harris-template header .concierge-trigger,
+  body.oakmark-template header .concierge-trigger {
+    transition: none;
+
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
+  }
+}
