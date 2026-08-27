@@ -223,3 +223,117 @@
     }
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Oakmark hero — photograph behind a white card on the right, with a green
+   rectangle offset behind the card's lower-left corner.
+   Scoped to the template so the base hero is untouched on other brands.
+   --------------------------------------------------------------------------- */
+
+body.oakmark-template .hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 460px;
+  overflow: hidden;
+  background-color: var(--ho-blue, #0b3459);
+}
+
+body.oakmark-template .hero picture img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The card: everything that isn't the background picture. */
+
+/* Only .hero-foreground — matching the raw cell as well drew the card, and its
+   offset rectangle, twice. */
+body.oakmark-template .hero .hero-foreground {
+  /* Logo and CTA share the bottom row of the card. */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-l, 24px);
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: min(52%, 100% - 2 * var(--spacing-l, 24px));
+  margin-right: var(--spacing-xxl, 48px);
+  background-color: #fff;
+  color: var(--color-dark, #131313);
+  padding: var(--spacing-xxl, 48px);
+  text-align: left;
+}
+
+body.oakmark-template .hero .hero-foreground::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  bottom: -22px;
+  width: 62%;
+  height: 74px;
+  background-color: var(--ho-green, #025e02);
+  z-index: -1;
+}
+
+body.oakmark-template .hero h1 {
+  margin: 0 0 var(--spacing-l, 24px);
+  font-size: var(--heading-font-size-s, 20.25px);
+  font-weight: 700;
+  color: inherit;
+}
+
+body.oakmark-template .hero p {
+  margin: 0 0 var(--spacing-l, 24px);
+  font-size: var(--body-font-size-m, 16px);
+  line-height: 1.7;
+}
+
+body.oakmark-template .hero p:has(picture) {
+  max-width: 300px;
+}
+
+body.oakmark-template .hero p picture img {
+  position: static;
+  width: 100%;
+  height: auto;
+  object-fit: initial;
+}
+
+/* CTA is brand blue here, not the green used elsewhere. */
+body.oakmark-template .hero a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-m, 12px);
+  background-color: var(--ho-blue, #0b3459);
+  color: #fff;
+  padding: 14px var(--spacing-l, 24px);
+  border-radius: 0;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+body.oakmark-template .hero a::after {
+  content: "→";
+  transition: transform 0.2s ease;
+}
+
+body.oakmark-template .hero a:hover::after {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.oakmark-template .hero a::after {
+    transition: none;
+  }
+}
+
+body.oakmark-template .hero h1,
+body.oakmark-template .hero .hero-foreground > p:not(:has(picture), :has(a)) {
+  flex-basis: 100%;
+  margin-bottom: 0;
+}

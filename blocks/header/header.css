@@ -956,9 +956,10 @@ body.oakmark-template header .concierge-trigger {
   border-radius: 50%;
   background: none;
 
-  /* Buttons do not inherit colour; without this the sparkle renders UA-black
-     on the Harris blue. */
-  color: inherit;
+  /* An explicit colour, NOT inherit: the header sets white, but the
+     .default-content wrapper between it and this button resets colour to
+     black, so inheriting painted the sparkle black on the Harris blue. */
+  color: #fff;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 

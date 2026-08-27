@@ -433,8 +433,19 @@
 }
 
 .section.insights .insights-see-all a {
-  color: var(--ho-green, #025e02);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-m, 12px);
+  background-color: var(--ho-blue, #0b3459);
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 14px var(--spacing-l, 24px);
   text-decoration: none;
+}
+
+.section.insights .insights-see-all a::after {
+  content: "\2192";
 }
 
 .section.insights .insights-list {
