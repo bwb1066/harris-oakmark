@@ -6,6 +6,9 @@
  */
 
 body.oakmark-template {
+  /* Light-only brand — see harris.css. */
+  color-scheme: light;
+
   --color-brand: var(--ho-green);
   --color-link: var(--ho-green);
   --color-accent: var(--ho-blue);

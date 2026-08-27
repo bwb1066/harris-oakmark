@@ -1,0 +1,113 @@
+/*
+ * careers-hero — photograph with the message laid over it.
+ *
+ * Deliberately NOT full bleed: this one keeps the page gutters, so the image
+ * sits as a contained band with white either side.
+ */
+
+.careers-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 420px;
+  overflow: hidden;
+  background-color: var(--ho-blue, #0b3459);
+
+  /* Blocks are full-width by default in this base — each one constrains its own
+     content. This band is contained rather than bled, so it does it here. */
+  max-width: var(--grid-container-width, 1200px);
+  margin-inline: auto;
+}
+
+.careers-hero .careers-hero-media {
+  position: absolute;
+  inset: 0;
+}
+
+.careers-hero .careers-hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.careers-hero .careers-hero-content {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-xxl, 48px);
+  color: #fff;
+}
+
+.careers-hero .careers-hero-content h2 {
+  margin: 0 0 var(--spacing-l, 24px);
+  font-size: var(--heading-font-size-l, 25.63px);
+  color: inherit;
+}
+
+.careers-hero .careers-hero-content p {
+  margin: 0;
+  font-size: var(--body-font-size-l, 18px);
+  line-height: 1.7;
+  max-width: 46ch;
+}
+
+.careers-hero .careers-hero-cta {
+  margin-top: var(--spacing-xl, 32px) !important;
+  max-width: none;
+}
+
+.careers-hero .careers-hero-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-m, 12px);
+  background-color: var(--ho-green, #025e02);
+  color: #fff;
+  padding: 14px var(--spacing-l, 24px);
+  border-radius: 0;
+  font-size: var(--body-font-size-m, 16px);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.careers-hero .careers-hero-cta a::after {
+  content: "→";
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.careers-hero .careers-hero-cta a:hover::after {
+  transform: translateX(4px);
+}
+
+/* `center` variant — copy centred in the band. */
+.careers-hero.center .careers-hero-content {
+  text-align: center;
+}
+
+.careers-hero.center .careers-hero-content p {
+  margin-inline: auto;
+}
+
+@media (width >= 900px) {
+  .careers-hero {
+    min-height: 520px;
+  }
+
+  .careers-hero .careers-hero-content h2 {
+    font-size: var(--heading-font-size-xl, 28.83px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .careers-hero .careers-hero-cta a::after {
+    transition: none;
+  }
+}
+
+/* Breathing room above and below the contained band. */
+main > .section:has(.careers-hero) {
+  padding-block: var(--spacing-xxl, 48px);
+}

@@ -1,0 +1,152 @@
+/*
+ * team-hero — full-bleed photograph with a pull-quote card floating over its
+ * right-hand side, a brand rectangle peeking out behind the card's left edge,
+ * and the CTA sitting below the card on the image.
+ */
+
+main > .section:has(.team-hero) {
+  margin: 0;
+  padding: 0;
+}
+
+main > .section:has(.team-hero) > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.team-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 520px;
+  overflow: hidden;
+  background-color: var(--ho-blue, #0b3459);
+}
+
+.team-hero .team-hero-media {
+  position: absolute;
+  inset: 0;
+}
+
+.team-hero .team-hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-hero .team-hero-inner {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: min(56%, 100% - 2 * var(--spacing-l, 24px));
+  margin-right: var(--spacing-xxl, 48px);
+}
+
+.team-hero .team-hero-card {
+  position: relative;
+  margin: 0;
+  background-color: #fff;
+  color: var(--color-dark, #131313);
+  padding: var(--spacing-xxl, 48px);
+  font-size: var(--body-font-size-l, 18px);
+  line-height: 1.65;
+}
+
+/* The brand rectangle peeking out behind the card's left edge. */
+.team-hero .team-hero-card::before {
+  content: "";
+  position: absolute;
+  left: -26px;
+  top: 12%;
+  width: 26px;
+  height: 42%;
+  background-color: #2c5a86;
+  z-index: -1;
+}
+
+.team-hero .team-hero-card p {
+  margin: 0;
+}
+
+/* The quote itself is authored in italics with a bold lead sentence. */
+.team-hero .team-hero-card em {
+  font-style: italic;
+}
+
+.team-hero .team-hero-card p:first-child::before {
+  content: "\201C";
+  font-weight: 700;
+  margin-right: 0.15em;
+}
+
+.team-hero .team-hero-card p:first-child::after {
+  content: "\201D";
+  font-weight: 700;
+  margin-left: 0.1em;
+}
+
+.team-hero .team-hero-attribution {
+  margin-top: var(--spacing-l, 24px) !important;
+  font-size: var(--body-font-size-m, 16px);
+  color: var(--color-gray-600, #636363);
+}
+
+/* CTA sits below the card, flush right, over the photograph. */
+.team-hero .team-hero-cta {
+  margin: var(--spacing-l, 24px) 0 0;
+  text-align: right;
+}
+
+.team-hero .team-hero-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-m, 12px);
+  background-color: var(--ho-green, #025e02);
+  color: #fff;
+  padding: 14px var(--spacing-l, 24px);
+  border-radius: 0;
+  font-size: var(--body-font-size-m, 16px);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.team-hero .team-hero-cta a::after {
+  content: "→";
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.team-hero .team-hero-cta a:hover::after {
+  transform: translateX(4px);
+}
+
+@media (width <= 900px) {
+  .team-hero {
+    min-height: 0;
+    padding-block: var(--spacing-xxl, 48px);
+    justify-content: center;
+  }
+
+  .team-hero .team-hero-inner {
+    width: calc(100% - 2 * var(--spacing-l, 24px));
+    margin-right: 0;
+  }
+
+  .team-hero .team-hero-card {
+    padding: var(--spacing-xl, 32px);
+  }
+
+  .team-hero .team-hero-cta {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-hero .team-hero-cta a::after {
+    transition: none;
+  }
+}

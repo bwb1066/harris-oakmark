@@ -6,6 +6,10 @@
  */
 
 body.harris-template {
+  /* Both brands are light-only. Without this the base's light-dark() tokens
+     follow the visitor's OS and the page renders on black. */
+  color-scheme: light;
+
   --color-brand: var(--ho-blue);
   --color-link: var(--ho-blue);
   --color-accent: var(--ho-green);
