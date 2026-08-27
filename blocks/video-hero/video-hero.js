@@ -96,7 +96,10 @@ export default function init(block) {
   const videoLink = mediaRow?.querySelector('a[href]');
   if (!videoLink) return;
 
-  const src = videoLink.getAttribute('href');
+  // Resolved href, not the raw attribute: a DA-hosted asset is authored as
+  // `./media_<hash>.mp4` relative to the page, while a repo-hosted one is
+  // root-relative. Letting the browser resolve it means either form works.
+  const src = videoLink.href;
   const stillPicture = mediaRow.querySelector('picture');
   const stillSrc = stillPicture?.querySelector('img')?.src || '';
 
