@@ -1,0 +1,223 @@
+/*
+ * video-hero — full-bleed video behind a floating white card.
+ *
+ * Full-bleed needs the section's own gutters removed, the same approach the
+ * Tumi replica uses. The card sits centred over the video with an offset brand
+ * rectangle behind its lower-left corner, and a scroll cue at the bottom.
+ */
+
+main > .section:has(.video-hero) {
+  margin: 0;
+  padding: 0;
+}
+
+main > .section:has(.video-hero) > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.video-hero {
+  --vh-card-width: 620px;
+  --vh-logo-width: 300px;
+
+  position: relative;
+  width: 100%;
+  min-height: 70svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--ho-blue, #0b3459);
+}
+
+/* ── media ──────────────────────────────────────────────────────────────── */
+
+.video-hero .video-hero-media {
+  position: absolute;
+  inset: 0;
+}
+
+.video-hero video,
+.video-hero .video-hero-still img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The still is stacked over the video and revealed once the loops finish, so
+   the handover is a fade rather than a reflow. */
+.video-hero .video-hero-still {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.video-hero.is-settled .video-hero-still {
+  opacity: 1;
+}
+
+/* ── card ───────────────────────────────────────────────────────────────── */
+
+.video-hero .video-hero-card {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: min(var(--vh-card-width), calc(100% - 2 * var(--spacing-l, 24px)));
+  background-color: #fff;
+  color: var(--color-dark, #131313);
+  padding: var(--spacing-xxl, 48px);
+  margin-block: var(--spacing-xxl, 48px);
+
+  /* Logo lockup and CTA share the bottom row. Flex rather than inline-block:
+     the logo's paragraph is shrink-to-fit, and a percentage width on the image
+     inside it resolves against nothing and collapses the logo to zero. */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-l, 24px);
+}
+
+/* The offset brand rectangle behind the card's lower-left corner. */
+.video-hero .video-hero-card::before {
+  content: "";
+  position: absolute;
+  left: -28px;
+  bottom: -28px;
+  width: 55%;
+  height: 84px;
+  background-color: var(--ho-blue, #0b3459);
+  z-index: -1;
+}
+
+/* The headline is authored as an h1 but reads as body copy in this design, and
+   takes the full width so the logo and CTA share the row beneath it. */
+.video-hero .video-hero-card h1 {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--body-font-size-xl, 20px);
+  font-weight: 400;
+  line-height: 1.7;
+  color: inherit;
+}
+
+.video-hero .video-hero-card p {
+  margin: 0;
+}
+
+/* The lockup gets an explicit width rather than relying on the image's
+   intrinsic size: until the file loads naturalWidth is 0, so `width: auto`
+   collapses the logo to nothing and the row reflows when it arrives. */
+.video-hero .video-hero-card picture {
+  display: block;
+  width: var(--vh-logo-width);
+  max-width: 100%;
+}
+
+.video-hero .video-hero-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.video-hero .video-hero-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-m, 12px);
+  background-color: var(--ho-green, #025e02);
+  color: #fff;
+  padding: 14px var(--spacing-l, 24px);
+  border-radius: 0;
+  font-size: var(--body-font-size-m, 16px);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.video-hero .video-hero-card a::after {
+  content: "→";
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.video-hero .video-hero-card a:hover::after {
+  transform: translateX(4px);
+}
+
+/* ── controls ───────────────────────────────────────────────────────────── */
+
+.video-hero .video-hero-pause {
+  position: absolute;
+  right: var(--spacing-l, 24px);
+  bottom: var(--spacing-l, 24px);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background-color: rgb(0 0 0 / 45%);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Once the still has taken over there is nothing to pause. */
+.video-hero.is-settled .video-hero-pause {
+  display: none;
+}
+
+.video-hero .video-hero-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-s, 8px);
+  padding: var(--spacing-m, 12px) var(--spacing-xl, 32px);
+  border: none;
+  background-color: rgb(0 0 0 / 42%);
+  color: #fff;
+  font: inherit;
+  font-size: var(--body-font-size-m, 16px);
+  cursor: pointer;
+}
+
+.video-hero .video-hero-chevron {
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
+  transform: rotate(45deg) translate(-2px, -2px);
+}
+
+.video-hero .video-hero-pause:focus-visible,
+.video-hero .video-hero-scroll:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (width >= 900px) {
+  .video-hero {
+    min-height: 82svh;
+  }
+
+  .video-hero .video-hero-card h1 {
+    font-size: var(--body-font-size-xxl, 22px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-hero .video-hero-still,
+  .video-hero .video-hero-card a::after {
+    transition: none;
+  }
+}
