@@ -127,25 +127,27 @@
   font-weight: 700;
 }
 
-/* Decorative dot field. */
+/* Decorative dot field: a grey grid with a few accent dots in the top-right
+   corner. Two layers rather than one — stacking both gradients on a single
+   element paints the accent colour across the whole field. */
 .section.value-focus .value-focus-art {
+  position: relative;
   min-height: 380px;
   background-image:
-    radial-gradient(circle at center, rgb(122 184 160 / 55%) 42%, transparent 44%),
     radial-gradient(circle at center, var(--color-gray-200, #d3d3d3) 42%, transparent 44%);
-  background-size: 22px 22px, 22px 22px;
-  background-position: 0 0, 0 0;
-
-  /* The accent layer is clipped to the top-right corner; the grey field fills
-     the rest. */
-  mask-image: none;
+  background-size: 22px 22px;
 }
 
 .section.value-focus .value-focus-art::before {
   content: "";
-  display: block;
-  height: 100%;
-  background: linear-gradient(215deg, transparent 0 6%, #fff 9%);
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at center, rgb(106 168 145 / 85%) 42%, transparent 44%);
+  background-size: 22px 22px;
+
+  /* Confine the accent to the top-right corner. */
+  mask-image: radial-gradient(circle at 100% 0, #000 0 14%, transparent 19%);
 }
 
 .section.value-focus .value-focus-cta {
@@ -240,5 +242,50 @@
   .section.principles .principles-intro h2,
   .section.value-focus .value-focus-intro h2 {
     font-size: var(--heading-font-size-xl, 28.83px);
+  }
+}
+
+/* ── shared ──────────────────────────────────────────────────────────────── */
+
+/* The template paints prose headings brand blue; in these sections the design
+   wants them near-black, like the source site. */
+.section.principles .default-content :is(h2, h3),
+.section.value-focus .default-content :is(h2, h3),
+.section.strategy-finder .default-content h3 {
+  color: var(--color-dark, #131313);
+}
+
+/* Same green arrow CTA the blocks use, so every call to action matches. */
+.section.principles .principles-cta a,
+.section.value-focus .value-focus-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-m, 12px);
+  background-color: var(--ho-green, #025e02);
+  color: #fff;
+  padding: 14px var(--spacing-l, 24px);
+  border-radius: 0;
+  font-size: var(--body-font-size-m, 16px);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.section.principles .principles-cta a::after,
+.section.value-focus .value-focus-cta a::after {
+  content: "→";
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.section.principles .principles-cta a:hover::after,
+.section.value-focus .value-focus-cta a:hover::after {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section.principles .principles-cta a::after,
+  .section.value-focus .value-focus-cta a::after {
+    transition: none;
   }
 }
