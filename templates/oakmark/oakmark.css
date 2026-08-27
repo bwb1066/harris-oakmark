@@ -10,7 +10,9 @@ body.oakmark-template {
   --color-link: var(--ho-green);
   --color-accent: var(--ho-blue);
 
-  main {
+  /* Scoped to .default-content — i.e. authored prose — rather than all of
+     `main`, so a block that manages its own palette keeps it. See harris.css. */
+  main .default-content {
     h1,
     h2,
     h3,

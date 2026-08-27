@@ -10,7 +10,10 @@ body.harris-template {
   --color-link: var(--ho-blue);
   --color-accent: var(--ho-green);
 
-  main {
+  /* Scoped to .default-content — i.e. authored prose — rather than all of
+     `main`. A block that manages its own palette (audience-tabs paints white
+     on brand blue) must not have every link inside it turned green. */
+  main .default-content {
     h1,
     h2,
     h3,

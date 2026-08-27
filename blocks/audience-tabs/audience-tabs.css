@@ -1,0 +1,242 @@
+/*
+ * audience-tabs — audience selector on the Harris homepage.
+ *
+ * Full-bleed brand blue. Tabs left, media right. The active tab is outlined in
+ * the accent blue and gains a marker plus its Learn More line; the inactive
+ * ones are quiet. On the right, the chosen image sits over an offset slate
+ * rectangle with a translucent caption bar straddling its lower edge.
+ */
+
+.audience-tabs {
+  --at-accent: #0b79c1;
+  --at-slate: #2b3a47;
+  --at-caption: rgb(64 74 85 / 88%);
+  --at-cap-overlap: 34px;
+
+  background-color: var(--ho-blue, #0b3459);
+  color: #fff;
+  padding-block: var(--spacing-xxl, 48px);
+}
+
+.audience-tabs .audience-tabs-inner {
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
+  display: grid;
+  gap: var(--spacing-xl, 32px);
+}
+
+/* ── tabs ───────────────────────────────────────────────────────────────── */
+
+.audience-tabs .audience-tabs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-s, 8px);
+}
+
+.audience-tabs .audience-tab-link {
+  display: block;
+
+  /* Transparent border, not zero — an inactive tab must occupy the same box as
+     an active one or the whole column shifts when the selection changes. */
+  border: 1px solid transparent;
+  padding: var(--spacing-l, 24px);
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+
+  /* border-box or the 100% width plus padding and border overflows the grid
+     column and the outline runs under the image. */
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.audience-tabs .audience-tab-eyebrow {
+  display: block;
+  font-size: var(--body-font-size-xs, 12px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-s, 8px);
+}
+
+.audience-tabs .audience-tab-title {
+  display: block;
+  font-size: var(--heading-font-size-xl, 28.83px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* The marker only exists on the active tab, so it is generated rather than
+   authored — nothing to strip from the DOM when the selection moves. */
+.audience-tabs .audience-tab-title::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 0.5em;
+  vertical-align: 0.08em;
+  border-style: solid;
+  border-width: 0.32em 0 0.32em 0.44em;
+  border-color: transparent transparent transparent currentcolor;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.audience-tabs .audience-tab-more {
+  display: block;
+  font-size: var(--body-font-size-xs, 12px);
+  font-weight: 700;
+  margin-top: var(--spacing-m, 12px);
+
+  /* Collapsed rather than hidden so showing it doesn't reflow the column. */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+
+.audience-tabs .audience-tab.is-active .audience-tab-link {
+  border-color: var(--at-accent);
+}
+
+.audience-tabs .audience-tab.is-active .audience-tab-title {
+  font-weight: 700;
+}
+
+.audience-tabs .audience-tab.is-active .audience-tab-title::after {
+  opacity: 1;
+}
+
+.audience-tabs .audience-tab.is-active .audience-tab-more {
+  max-height: 3em;
+  opacity: 1;
+}
+
+.audience-tabs .audience-tab-link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── media ──────────────────────────────────────────────────────────────── */
+
+.audience-tabs .audience-tabs-media {
+  position: relative;
+  display: grid;
+}
+
+/* Panels stack so the section keeps the height of the tallest and nothing
+   jumps as the selection changes. */
+.audience-tabs .audience-panel {
+  grid-area: 1 / 1;
+  margin: 0;
+  position: relative;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.audience-tabs .audience-panel.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.audience-tabs .audience-panel-media {
+  position: relative;
+}
+
+/* The offset slate rectangle behind the image, up and to the right. Stacked
+   with a positive z-index on the image rather than a negative one here — a
+   negative z-index would drop it behind the section's own background and it
+   would never be seen. */
+.audience-tabs .audience-panel-media::before {
+  content: "";
+  position: absolute;
+  inset: -14px -22px auto auto;
+  width: 62%;
+  height: 58%;
+  background-color: var(--at-slate);
+}
+
+.audience-tabs .audience-panel picture {
+  position: relative;
+  z-index: 1;
+}
+
+.audience-tabs .audience-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.audience-tabs .audience-panel-caption {
+  z-index: 2;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-l, 24px);
+
+  /* Straddles the lower edge of the image and overhangs it on the left. The
+     pull-up is a length, not a percentage: percentage margins resolve against
+     the container WIDTH, so the overlap drifted as the column resized instead
+     of staying centred on the image edge. */
+  margin: calc(var(--at-cap-overlap) * -1) 0 0 -4%;
+  width: 96%;
+  padding: var(--spacing-l, 24px);
+  background-color: var(--at-caption);
+  color: #fff;
+  text-decoration: none;
+  font-size: var(--body-font-size-l, 18px);
+  line-height: 1.4;
+}
+
+.audience-tabs .audience-panel-caption span {
+  flex: 1;
+}
+
+.audience-tabs .audience-panel-caption::after {
+  content: "→";
+  font-size: 1.6em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.audience-tabs .audience-panel-caption:hover::after {
+  transform: translateX(4px);
+}
+
+@media (width >= 900px) {
+  .audience-tabs {
+    /* Roughly half the caption bar sits below the image edge at this size. */
+    --at-cap-overlap: 56px;
+
+    padding-block: 72px;
+  }
+
+  .audience-tabs .audience-tabs-inner {
+    grid-template-columns: 45fr 55fr;
+    gap: var(--spacing-xxl, 48px);
+    align-items: center;
+  }
+
+  .audience-tabs .audience-tab-title {
+    font-size: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audience-tabs .audience-tab-link,
+  .audience-tabs .audience-tab-title::after,
+  .audience-tabs .audience-tab-more,
+  .audience-tabs .audience-panel,
+  .audience-tabs .audience-panel-caption::after {
+    transition: none;
+  }
+}
