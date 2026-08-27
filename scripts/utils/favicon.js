@@ -3,19 +3,21 @@ import { getConfig, getMetadata } from '../ak.js';
 /**
  * Per-brand favicon.
  *
- * This site carries two brands in one repo: pages whose path ends in `-h` are
- * Harris Associates and take the Harris | Oakmark stacked mark. Keyed off the
- * path rather than `template` metadata so a new `-h` page gets the right icon
- * with nothing to remember; an explicit `favicon` metadata value still wins.
+ * This site carries two brands in one repo, and both use the shared
+ * Harris | Oakmark stacked mark: pages whose path ends in `-h` (Harris) or
+ * `-o` (Oakmark) take it. Keyed off the path rather than `template` metadata so
+ * a new brand page gets the right icon with nothing to remember; an explicit
+ * `favicon` metadata value still wins.
  *
  * The brand mark is a single 32px PNG, so it deliberately skips the base's
  * .ico + apple-touch + webmanifest trio — requesting files that don't exist
  * would put 404s in the console and cost a best-practices point.
  */
 const BRAND_ICON = '/img/favicons/harris-oakmark-32.png';
+const BRAND_SUFFIXES = ['-h', '-o'];
 
 function brandIconFor(pathname) {
-  return pathname.endsWith('-h') ? BRAND_ICON : null;
+  return BRAND_SUFFIXES.some((s) => pathname.endsWith(s)) ? BRAND_ICON : null;
 }
 
 (async function loadFavicon() {

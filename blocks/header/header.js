@@ -174,12 +174,35 @@ function decorateMenuToggle(section) {
   content.append(btn);
 }
 
+/** Where each brand's logo points. */
+const BRAND_HOME = { harris: '/index-h', oakmark: '/index-o' };
+
+/**
+ * The logo is authored as a bare image in both nav fragments, so the brand mark
+ * never linked home. Wrap it here rather than asking every fragment to remember
+ * — and it is the same unlinked-logo shape that used to crash the header.
+ */
+function linkBrandImage(section) {
+  const pic = section.querySelector('picture, img');
+  const home = BRAND_HOME[getMetadata('template')];
+  if (!pic || !home) return null;
+
+  const link = document.createElement('a');
+  link.href = home;
+  const alt = pic.querySelector?.('img')?.alt || pic.alt || '';
+  if (!alt) link.setAttribute('aria-label', 'Home');
+  pic.parentElement.insertBefore(link, pic);
+  link.append(pic);
+  return link;
+}
+
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
-  const brandLink = section.querySelector('a');
-  // A brand section with no link is authorable (and is what the Author Kit
-  // starter header degrades to once its action links are pulled out). The base
-  // dereferenced this unguarded, so one odd fragment took out the whole header.
+  const brandLink = section.querySelector('a') || linkBrandImage(section);
+  // A brand section with neither a link nor an image is authorable (and is what
+  // the Author Kit starter header degrades to once its action links are pulled
+  // out). The base dereferenced this unguarded, so one odd fragment took out the
+  // whole header.
   if (!brandLink) return;
   const [, text] = brandLink.childNodes;
   // Both brands use an image-only logo link, which has no text node to promote;
