@@ -1,0 +1,244 @@
+/*
+ * Homepage section styles, applied via Section Metadata `style` values and
+ * structured by scripts/sections.js. Loaded on demand by that module, so pages
+ * without these sections never fetch it.
+ */
+
+/* ── "Who we are" — three principles ─────────────────────────────────────── */
+
+.section.principles .default-content {
+  padding-block: var(--spacing-xxl, 48px);
+}
+
+.section.principles .principles-intro {
+  text-align: center;
+  max-width: 62ch;
+  margin: 0 auto var(--spacing-xxl, 48px);
+}
+
+.section.principles .principles-intro h2 {
+  margin: 0 0 var(--spacing-l, 24px);
+  font-size: var(--heading-font-size-l, 25.63px);
+}
+
+.section.principles .principles-intro p {
+  margin: 0;
+  font-size: var(--body-font-size-l, 18px);
+  line-height: 1.9;
+}
+
+.section.principles .principles-grid {
+  display: grid;
+  gap: var(--spacing-xl, 32px);
+}
+
+.section.principles .principle {
+  text-align: center;
+  padding-inline: var(--spacing-l, 24px);
+}
+
+.section.principles .principle h3 {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--body-font-size-l, 18px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.section.principles .principle p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.section.principles .principles-cta {
+  margin: var(--spacing-xxl, 48px) 0 0;
+  text-align: center;
+}
+
+/* The rule under the section is contained, not full bleed. */
+.section.principles::after {
+  content: "";
+  display: block;
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
+  border-bottom: 1px solid var(--color-gray-200, #d3d3d3);
+}
+
+/* ── "Value seekers" — focus list beside a dot field ─────────────────────── */
+
+.section.value-focus .default-content {
+  padding-block: var(--spacing-xxl, 48px);
+}
+
+.section.value-focus .value-focus-intro {
+  text-align: center;
+  max-width: 70ch;
+  margin: 0 auto var(--spacing-xl, 32px);
+}
+
+.section.value-focus .value-focus-intro h2 {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--heading-font-size-l, 25.63px);
+}
+
+.section.value-focus .value-focus-intro p {
+  margin: 0;
+  font-size: var(--body-font-size-l, 18px);
+}
+
+.section.value-focus .value-focus-cols {
+  display: grid;
+  gap: var(--spacing-xl, 32px);
+  align-items: start;
+}
+
+.section.value-focus .value-focus-list > h3 {
+  margin: 0 0 var(--spacing-l, 24px);
+  font-size: var(--heading-font-size-s, 20.25px);
+}
+
+/* The grey spine running down the left of the focus items. */
+.section.value-focus .value-focus-item {
+  position: relative;
+  padding: 0 0 var(--spacing-l, 24px) var(--spacing-xl, 32px);
+}
+
+.section.value-focus .value-focus-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 62px;
+  background-color: var(--color-gray-100, #f1f1f1);
+  z-index: -1;
+}
+
+.section.value-focus .value-focus-item h3 {
+  margin: 0 0 var(--spacing-xs, 4px);
+  font-size: var(--body-font-size-l, 18px);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.section.value-focus .value-focus-item p {
+  margin: 0;
+  font-size: var(--body-font-size-s, 14px);
+  font-weight: 700;
+}
+
+/* Decorative dot field. */
+.section.value-focus .value-focus-art {
+  min-height: 380px;
+  background-image:
+    radial-gradient(circle at center, rgb(122 184 160 / 55%) 42%, transparent 44%),
+    radial-gradient(circle at center, var(--color-gray-200, #d3d3d3) 42%, transparent 44%);
+  background-size: 22px 22px, 22px 22px;
+  background-position: 0 0, 0 0;
+
+  /* The accent layer is clipped to the top-right corner; the grey field fills
+     the rest. */
+  mask-image: none;
+}
+
+.section.value-focus .value-focus-art::before {
+  content: "";
+  display: block;
+  height: 100%;
+  background: linear-gradient(215deg, transparent 0 6%, #fff 9%);
+}
+
+.section.value-focus .value-focus-cta {
+  margin: var(--spacing-xl, 32px) 0 0;
+  text-align: center;
+}
+
+/* ── "Explore your investment options" — two dropdowns ───────────────────── */
+
+.section.strategy-finder .default-content {
+  padding-block: var(--spacing-xxl, 48px);
+  text-align: center;
+}
+
+.section.strategy-finder .strategy-intro h2 {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--body-font-size-m, 16px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray-600, #636363);
+}
+
+.section.strategy-finder .strategy-intro h3 {
+  margin: 0 0 var(--spacing-xxl, 48px);
+  font-size: var(--heading-font-size-xl, 28.83px);
+}
+
+.section.strategy-finder .strategy-fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-l, 24px);
+}
+
+/* The visible label is the select's own placeholder option, so the text span is
+   for assistive tech only. */
+.section.strategy-finder .strategy-field-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.section.strategy-finder .strategy-field select {
+  appearance: none;
+  min-width: 300px;
+  padding: 14px var(--spacing-xxl, 48px) 14px var(--spacing-l, 24px);
+  border: 1px solid var(--color-gray-300, #b5b5b5);
+  border-radius: 3px;
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-gray-600, #636363) 50%),
+    linear-gradient(135deg, var(--color-gray-600, #636363) 50%, transparent 50%);
+  background-size: 7px 7px, 7px 7px;
+  background-position: right 26px center, right 19px center;
+  background-repeat: no-repeat;
+  font: inherit;
+  font-size: var(--body-font-size-m, 16px);
+  color: var(--color-dark, #131313);
+  cursor: pointer;
+}
+
+.section.strategy-finder .strategy-field select:focus-visible {
+  outline: 2px solid var(--ho-blue, #0b3459);
+  outline-offset: 2px;
+}
+
+.section.strategy-finder .strategy-or {
+  font-size: var(--body-font-size-l, 18px);
+}
+
+@media (width >= 900px) {
+  .section.principles .principles-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  /* Hairlines between the columns, not around them. */
+  .section.principles .principle + .principle {
+    border-left: 1px solid var(--color-gray-200, #d3d3d3);
+  }
+
+  .section.value-focus .value-focus-cols {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xxl, 48px);
+  }
+
+  .section.principles .principles-intro h2,
+  .section.value-focus .value-focus-intro h2 {
+    font-size: var(--heading-font-size-xl, 28.83px);
+  }
+}

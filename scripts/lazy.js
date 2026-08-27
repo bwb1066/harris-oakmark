@@ -13,6 +13,8 @@ async function loadSidekick() {
   import('./utils/lazyhash.js');
   import('./utils/favicon.js');
   import('./utils/footer.js').then(({ default: footer }) => footer());
+  // Structures the prose sections that carry a Section Metadata `style`.
+  import('./sections.js').then(({ default: enhance }) => enhance());
 
   // Author facing tools
   if (ENV !== 'prod') {
