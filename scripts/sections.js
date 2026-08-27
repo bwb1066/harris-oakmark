@@ -144,10 +144,110 @@ function strategyFinder(section) {
   content.replaceChildren(intro, fields);
 }
 
+const isTitle = (el) => el.tagName === 'H2' && el.querySelector('a');
+const hasPicture = (el) => !!el.querySelector?.('picture');
+const hasLink = (el) => !!el.querySelector?.('a');
+
+/**
+ * "News + Insights". Two sections share this style with different shapes: a
+ * featured article introduced by a hero image, and a plain list of articles.
+ * Both are flat runs of paragraphs, so articles are split on their linked <h2>
+ * title and the surrounding paragraphs classified by what they contain.
+ */
+function insights(section) {
+  const content = section.querySelector('.default-content');
+  if (!content) return;
+  const kids = [...content.children];
+  let i = 0;
+
+  // Leading unlinked headings are the section's own eyebrow + heading.
+  const intro = document.createElement('div');
+  intro.className = 'insights-intro';
+  while (i < kids.length && /^H[23]$/.test(kids[i].tagName) && !hasLink(kids[i])) {
+    intro.append(kids[i]);
+    i += 1;
+  }
+
+  // A picture before any article title is the featured image.
+  let hero = null;
+  if (kids[i] && hasPicture(kids[i])) {
+    hero = kids[i];
+    hero.className = 'insights-hero';
+    i += 1;
+  }
+
+  // A trailing paragraph that is just a link, following an author or avatar, is
+  // the section's "see all" rather than part of the last article.
+  let seeAll = null;
+  const last = kids[kids.length - 1];
+  const penultimate = kids[kids.length - 2];
+  if (last && last.tagName === 'P' && hasLink(last) && !hasPicture(last)
+    && penultimate && (hasLink(penultimate) || hasPicture(penultimate))) {
+    seeAll = last;
+    seeAll.className = 'insights-see-all';
+    kids.pop();
+  }
+
+  const list = document.createElement('div');
+  list.className = 'insights-list';
+  let article = null;
+  let pending = [];
+
+  for (; i < kids.length; i += 1) {
+    const el = kids[i];
+    if (isTitle(el)) {
+      if (article) list.append(article);
+      article = document.createElement('article');
+      article.className = 'insight';
+      // Whatever preceded the title is its category label.
+      for (const p of pending) {
+        p.className = 'insight-category';
+        article.append(p);
+      }
+      pending = [];
+      el.className = 'insight-title';
+      article.append(el);
+    } else if (!article) {
+      pending.push(el);
+    } else {
+      if (hasPicture(el)) el.className = 'insight-avatar';
+      else if (hasLink(el)) {
+        el.className = 'insight-author';
+        // Authored as **[Name](…)**, which ak.js decorates into a button. A
+        // byline is not a call to action, so undo it.
+        el.classList.remove('btn-group');
+        el.querySelectorAll('a').forEach((a) => {
+          a.classList.remove('btn', 'btn-primary', 'btn-secondary', 'btn-accent', 'btn-outline');
+        });
+      } else if (/\b(19|20)\d{2}\b/.test(el.textContent) && el.textContent.trim().length < 26) el.className = 'insight-date';
+      else el.className = 'insight-excerpt';
+      article.append(el);
+    }
+  }
+  if (article) list.append(article);
+
+  // A hero means the featured treatment: image beside the first article's card.
+  const parts = [];
+  if (intro.children.length) parts.push(intro);
+  if (hero) {
+    const featured = document.createElement('div');
+    featured.className = 'insights-featured';
+    featured.append(hero, list);
+    parts.push(featured);
+    section.classList.add('has-featured');
+  } else {
+    parts.push(list);
+  }
+  if (seeAll) parts.push(seeAll);
+
+  content.replaceChildren(...parts);
+}
+
 const ENHANCERS = {
   principles,
   'value-focus': valueFocus,
   'strategy-finder': strategyFinder,
+  insights,
 };
 
 export default async function enhanceSections(area = document) {

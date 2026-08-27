@@ -289,3 +289,168 @@
     transition: none;
   }
 }
+
+/* ── "News + Insights" ───────────────────────────────────────────────────── */
+
+.section.insights {
+  background-color: var(--color-gray-100, #f1f1f1);
+}
+
+.section.insights .default-content {
+  padding-block: var(--spacing-xxl, 48px);
+}
+
+.section.insights .insights-intro {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl, 48px);
+}
+
+.section.insights .insights-intro h2 {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--body-font-size-m, 16px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray-600, #636363);
+}
+
+.section.insights .insights-intro h3 {
+  margin: 0;
+  font-size: var(--heading-font-size-xl, 28.83px);
+  color: var(--color-dark, #131313);
+}
+
+.section.insights .insights-hero {
+  margin: 0;
+}
+
+.section.insights .insights-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Each article is a white card. */
+.section.insights .insight {
+  background-color: #fff;
+  padding: var(--spacing-xl, 32px);
+}
+
+.section.insights .insight-category {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--body-font-size-xs, 12px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray-600, #636363);
+}
+
+.section.insights .insight-title {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--heading-font-size-s, 20.25px);
+  line-height: 1.3;
+  color: var(--color-dark, #131313);
+}
+
+/* Extra specificity: the template's prose-link rule paints every link in
+   .default-content green, and a headline is not a link-coloured thing. */
+.section.insights .insight .insight-title a {
+  color: var(--color-dark, #131313);
+  text-decoration: none;
+}
+
+.section.insights .insight-title a:hover {
+  text-decoration: underline;
+}
+
+.section.insights .insight-excerpt {
+  margin: 0 0 var(--spacing-l, 24px);
+  font-size: var(--body-font-size-s, 14px);
+  line-height: 1.7;
+  color: var(--color-gray-700, #4b4b4b);
+}
+
+/* Avatar, author and date sit on one line at the foot of the card. */
+.section.insights .insight-avatar {
+  margin: 0;
+  float: left;
+  width: 44px;
+  margin-right: var(--spacing-m, 12px);
+}
+
+.section.insights .insight-avatar img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.section.insights .insight-author {
+  margin: 0;
+  font-size: var(--body-font-size-s, 14px);
+  font-weight: 700;
+}
+
+.section.insights .insight-author a {
+  color: var(--color-dark, #131313);
+  text-decoration: none;
+}
+
+.section.insights .insight-date {
+  margin: 0;
+  font-size: var(--body-font-size-s, 14px);
+  color: var(--color-gray-600, #636363);
+}
+
+.section.insights .insight::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.section.insights .insights-see-all {
+  margin: var(--spacing-xl, 32px) 0 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.section.insights .insights-see-all a {
+  color: var(--ho-green, #025e02);
+  text-decoration: none;
+}
+
+.section.insights .insights-list {
+  display: grid;
+  gap: var(--spacing-l, 24px);
+}
+
+@media (width >= 900px) {
+  /* Featured: image on the left with the card overlapping it on the right. */
+  .section.insights.has-featured .insights-featured {
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    align-items: center;
+  }
+
+  .section.insights.has-featured .insights-hero {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+
+  .section.insights.has-featured .insights-list {
+    grid-area: 1 / 2 / 2 / 3;
+
+    /* Pull the card back over the image. */
+    margin-left: -12%;
+  }
+
+  .section.insights.has-featured .insight {
+    padding: var(--spacing-xxl, 48px);
+  }
+
+  /* The plain list runs three across. */
+  .section.insights:not(.has-featured) .insights-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
