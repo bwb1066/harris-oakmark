@@ -55,3 +55,223 @@
 .aem-tabs .aem-tabs-panel[aria-hidden='true'] {
   display: none;
 }
+
+/*
+ * Oakmark skin for aem-tabs — the "Our Funds" panel.
+ *
+ * Scoped to the Oakmark template so the ported collection block keeps its
+ * stock appearance anywhere else. The fund cards arrive as raw <table>s nested
+ * inside the tab panel (a table inside a block is content, not a nested block),
+ * so they are styled as tables rather than restructured.
+ */
+
+body.oakmark-template .section:has(.aem-tabs) {
+  position: relative;
+  background-color: var(--color-gray-100, #f1f1f1);
+  padding-block: var(--spacing-xxl, 48px);
+}
+
+/* The green rule down the left edge of the section. */
+body.oakmark-template .section:has(.aem-tabs)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--spacing-xxl, 48px);
+  bottom: var(--spacing-xxl, 48px);
+  width: 14px;
+  background-color: var(--ho-green, #025e02);
+}
+
+/* ── tab strip ───────────────────────────────────────────────────────────── */
+
+body.oakmark-template .aem-tabs .aem-tabs-list {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xxl, 48px);
+  border-bottom: none;
+  margin-bottom: var(--spacing-xl, 32px);
+}
+
+body.oakmark-template .aem-tabs .aem-tabs-tab {
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: none;
+  padding: var(--spacing-m, 12px) var(--spacing-s, 8px);
+  font: inherit;
+  font-size: var(--body-font-size-l, 18px);
+  color: var(--ho-nav-text, #4a4a4a);
+  cursor: pointer;
+}
+
+body.oakmark-template .aem-tabs .aem-tabs-tab[aria-selected="true"] {
+  color: var(--color-dark, #131313);
+  border-bottom-color: var(--at-tab-accent, #0b79c1);
+}
+
+/* ── fund cards ──────────────────────────────────────────────────────────── */
+
+body.oakmark-template .aem-tabs [role="tabpanel"] > div {
+  display: grid;
+  gap: var(--spacing-l, 24px);
+  grid-template-columns: 1fr;
+}
+
+body.oakmark-template .aem-tabs table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+/* First row is the block-name cell ("card") — content, not something to show. */
+body.oakmark-template .aem-tabs table tr:first-child {
+  display: none;
+}
+
+/* Ticker. */
+body.oakmark-template .aem-tabs table td > p:first-child {
+  margin: 0 0 var(--spacing-xs, 4px);
+  font-size: var(--body-font-size-s, 14px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+body.oakmark-template .aem-tabs table td > p:first-child a {
+  color: var(--ho-green, #025e02);
+  background: none;
+  padding: 0;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* Fund name. */
+body.oakmark-template .aem-tabs table td > h3 {
+  margin: 0 0 var(--spacing-l, 24px);
+  padding-bottom: var(--spacing-l, 24px);
+  border-bottom: 1px solid var(--color-gray-200, #d3d3d3);
+  font-size: var(--heading-font-size-s, 20.25px);
+  font-weight: 400;
+  color: var(--color-dark, #131313);
+}
+
+body.oakmark-template .aem-tabs table td > h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The label/value pairs run as three columns beneath the divider. */
+body.oakmark-template .aem-tabs table td > p:not(:first-child) {
+  margin: 0;
+  font-size: var(--body-font-size-s, 14px);
+}
+
+body.oakmark-template .aem-tabs table td > p a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (width >= 700px) {
+  body.oakmark-template .aem-tabs [role="tabpanel"] > div {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 1000px) {
+  body.oakmark-template .aem-tabs [role="tabpanel"] > div {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  body.oakmark-template .aem-tabs table td > h3 {
+    font-size: var(--heading-font-size-m, 22.78px);
+  }
+}
+
+/* The section heading sits outside the block, in the section's own prose. */
+body.oakmark-template .section:has(.aem-tabs) .default-content {
+  text-align: center;
+}
+
+body.oakmark-template .section:has(.aem-tabs) .default-content h2 {
+  margin: 0 0 var(--spacing-xl, 32px);
+  font-size: var(--heading-font-size-xl, 28.83px);
+  color: var(--color-dark, #131313);
+}
+
+/* Every value in these cards is authored as **[text](url)**, which ak.js turns
+   into a filled button — so the NAV figures rendered as black blocks. Strip the
+   button treatment back to plain text. */
+body.oakmark-template .aem-tabs table .btn {
+  display: inline;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+/* Card interior: ticker and name full width, then the three metrics as
+   label-over-value columns, then the as-of line. Placement is explicit because
+   the pairs must read down each column, not across the row. */
+body.oakmark-template .aem-tabs table td {
+  position: relative;
+  padding: var(--spacing-l, 24px);
+  border: none;
+  vertical-align: top;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--spacing-m, 12px);
+  align-content: start;
+}
+
+body.oakmark-template .aem-tabs table td > p:first-child,
+body.oakmark-template .aem-tabs table td > h3 {
+  grid-column: 1 / -1;
+}
+
+body.oakmark-template .aem-tabs table td > p:nth-of-type(2) { grid-area: 3 / 1; }
+body.oakmark-template .aem-tabs table td > p:nth-of-type(3) { grid-area: 4 / 1; }
+body.oakmark-template .aem-tabs table td > p:nth-of-type(4) { grid-area: 3 / 2; }
+body.oakmark-template .aem-tabs table td > p:nth-of-type(5) { grid-area: 4 / 2; }
+body.oakmark-template .aem-tabs table td > p:nth-of-type(6) { grid-area: 3 / 3; }
+body.oakmark-template .aem-tabs table td > p:nth-of-type(7) { grid-area: 4 / 3; }
+
+body.oakmark-template .aem-tabs table td > p:nth-of-type(8) {
+  grid-area: 5 / 1 / 6 / -1;
+  margin-top: var(--spacing-s, 8px);
+  font-size: var(--body-font-size-xs, 12px);
+  color: var(--color-gray-600, #636363);
+}
+
+/* Labels. */
+body.oakmark-template .aem-tabs table td > p:nth-of-type(2),
+body.oakmark-template .aem-tabs table td > p:nth-of-type(4),
+body.oakmark-template .aem-tabs table td > p:nth-of-type(6) {
+  font-size: var(--body-font-size-xs, 12px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-gray-600, #636363);
+}
+
+/* Values. */
+body.oakmark-template .aem-tabs table td > p:nth-of-type(3),
+body.oakmark-template .aem-tabs table td > p:nth-of-type(5),
+body.oakmark-template .aem-tabs table td > p:nth-of-type(7) {
+  font-size: var(--body-font-size-m, 16px);
+  color: var(--color-dark, #131313);
+}
+
+/* The square go-to-fund affordance in the card's top-right. */
+body.oakmark-template .aem-tabs table td::after {
+  content: "→";
+  position: absolute;
+  top: var(--spacing-l, 24px);
+  right: var(--spacing-l, 24px);
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background-color: var(--color-gray-100, #f1f1f1);
+  color: var(--color-gray-700, #4b4b4b);
+}

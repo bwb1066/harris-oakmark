@@ -168,9 +168,12 @@ function insights(section) {
     i += 1;
   }
 
-  // A picture before any article title is the featured image.
+  // A picture before the first title is the featured image — but ONLY in a
+  // section that introduced itself with headings. A bare list of articles also
+  // starts with a picture (the first card's image), and treating that as a hero
+  // collapsed the whole list into the featured layout.
   let hero = null;
-  if (kids[i] && hasPicture(kids[i])) {
+  if (intro.children.length && kids[i] && hasPicture(kids[i])) {
     hero = kids[i];
     hero.className = 'insights-hero';
     i += 1;
@@ -199,9 +202,10 @@ function insights(section) {
       if (article) list.append(article);
       article = document.createElement('article');
       article.className = 'insight';
-      // Whatever preceded the title is its category label.
+      // Whatever preceded the title belongs to it: a picture is the card's
+      // image, anything else is its category label.
       for (const p of pending) {
-        p.className = 'insight-category';
+        p.className = hasPicture(p) ? 'insight-image' : 'insight-category';
         article.append(p);
       }
       pending = [];

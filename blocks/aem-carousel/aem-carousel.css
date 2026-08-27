@@ -151,3 +151,54 @@
     --slide-content-width: auto;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Oakmark skin — "Our Commentary".
+   Scoped to the template so the ported collection block is untouched elsewhere.
+   Three commentary columns on white, with a dark-blue square next control.
+   --------------------------------------------------------------------------- */
+
+body.oakmark-template .section:has(.aem-carousel) {
+  padding-block: var(--spacing-xxl, 48px);
+}
+
+body.oakmark-template .aem-carousel {
+  position: relative;
+}
+
+/* Slide text: eyebrow, bold headline, excerpt. */
+body.oakmark-template .aem-carousel p:first-child {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--body-font-size-s, 14px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray-600, #636363);
+}
+
+body.oakmark-template .aem-carousel p:nth-child(2) {
+  margin: 0 0 var(--spacing-m, 12px);
+  font-size: var(--heading-font-size-s, 20.25px);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-dark, #131313);
+}
+
+body.oakmark-template .aem-carousel p:nth-child(n + 3) {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--color-gray-700, #4b4b4b);
+}
+
+/* Square brand controls rather than the stock round ones. */
+body.oakmark-template .aem-carousel nav button {
+  border-radius: 0;
+  background-color: var(--ho-blue, #0b3459);
+  color: #fff;
+  border: none;
+  width: 44px;
+  height: 56px;
+}
+
+body.oakmark-template .aem-carousel nav button:hover {
+  background-color: #0d3f6b;
+}

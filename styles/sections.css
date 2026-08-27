@@ -292,7 +292,8 @@
 
 /* ── "News + Insights" ───────────────────────────────────────────────────── */
 
-.section.insights {
+/* White page; the featured article sits on its own grey panel. */
+.section.insights .insights-featured {
   background-color: var(--color-gray-100, #f1f1f1);
 }
 
@@ -331,10 +332,25 @@
   object-fit: cover;
 }
 
-/* Each article is a white card. */
+/* List cards are plain — image, then text on the page background. */
 .section.insights .insight {
-  background-color: #fff;
-  padding: var(--spacing-xl, 32px);
+  padding: 0;
+}
+
+.section.insights .insight-image {
+  margin: 0 0 var(--spacing-l, 24px);
+}
+
+.section.insights .insight-image img {
+  display: block;
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+}
+
+/* Inside the featured panel the article is padded rather than imaged. */
+.section.insights .insights-featured .insight {
+  padding: var(--spacing-xxl, 48px);
 }
 
 .section.insights .insight-category {
